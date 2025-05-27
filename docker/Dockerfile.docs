@@ -1,0 +1,32 @@
+# Documentation builder image
+FROM python:3.10-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    make \
+    git \
+    graphviz \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+# Set working directory
+WORKDIR /app
+
+# Install Python dependencies
+COPY requirements-dev.txt .
+RUN pip install --no-cache-dir -r requirements-dev.txt \
+    && pip install sphinx sphinx-rtd-theme sphinx-autobuild sphinxcontrib-httpdomain
+
+# Copy documentation files
+COPY docs ./docs
+COPY noocrush ./noocrush
+
+# Expose the documentation server port
+EXPOSE 8000
+
+# Command to run the documentation server
+CMD ["sphinx-autobuild", "-b", "html", "--host", "0.0.0.0", "--port", "8000", 
+     "--watch", "/app/noocrush", "/app/docs/source", "/app/docs/_build/html"]
