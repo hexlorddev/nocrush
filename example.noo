@@ -1,0 +1,67 @@
+// NooCrush example program
+// Demonstrating Python + Rust + JavaScript features
+// Now with enhanced features: list comprehensions, pattern matching, and array methods
+
+// Struct definition (Rust-like)
+struct User {
+    name: String,
+    age: Number,
+    mut score: Number
+}
+
+// Async function (JavaScript/Python-like)
+async fn fetch_user_data(id: Number) -> User {
+    let response = await http.get(`https://api.example.com/users/${id}`)
+    return response.data
+}
+
+// Main function with variable declarations
+fn main() {
+    // Constants (JavaScript/Rust-like)
+    const MAX_SCORE = 100
+    const MIN_SCORE = 0
+
+    // Mutable variables (Rust-like)
+    let mut current_score = 75
+
+    // JavaScript-like template strings
+    let message = `Score: ${current_score}`
+
+    // Rust-like loop with break
+    loop {
+        if current_score >= MAX_SCORE {
+            break
+        }
+        current_score = current_score + 1
+    }
+
+        // Create a new user
+    let user = User {
+        name: "NooCrush Player",
+        age: 25,
+        score: current_score
+    }
+
+    // Python-like list comprehension
+    let numbers = [1, 2, 3, 4, 5]
+    let squares = [x * x for x in numbers if x % 2 == 0]  // [4, 16]
+
+    // JavaScript array methods
+    let doubled = numbers.map(x => x * 2)  // [2, 4, 6, 8, 10]
+    let sum = numbers.reduce((acc, curr) => acc + curr, 0)  // 15
+
+    // Rust-like pattern matching
+    fn describe_number(n: Number) -> String {
+        match n {
+            0 => "zero",
+            1 => "one",
+            2 => "two",
+            _ if n < 0 => "negative number",
+            _ => "many"
+        }
+    }
+
+
+    return user
+}
+}

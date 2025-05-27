@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  noocrush:
+    build:
+      context: .
+      target: development
+    container_name: noocrush-dev
+    volumes:
+      - .:/app
+      - noocrush-venv:/app/.venv
+    working_dir: /app
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    command: >
+      bash -c "watchmedo auto-restart --directory=/app --pattern='*.py' --recursive -- 
+      python -m noocrush"
+    ports:
+      - "8000:8000"
+    networks:
+      - noocrush-network
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    container_name: noocrush-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - noocrush-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  docs:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.docs
+    container_name: noocrush-docs
+    volumes:
+      - ./docs:/app/docs
+      - ./noocrush:/app/noocrush
+    ports:
+      - "8001:8000"
+    command: >
+      bash -c "sphinx-autobuild -b html --host 0.0.0.0 --port 8000 --watch /app/noocrush /app/docs/source /app/docs/_build/html"
+    networks:
+      - noocrush-network
+
+  tests:
+    build:
+      context: .
+      target: development
+    container_name: noocrush-tests
+    volumes:
+      - .:/app
+      - noocrush-venv:/app/.venv
+    working_dir: /app
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    command: >
+      bash -c "pytest -v --cov=noocrush --cov-report=term-missing"
+    depends_on:
+      - redis
+    networks:
+      - noocrush-network
+
+networks:
+  noocrush-network:
+    driver: bridge
+
+volumes:
+  noocrush-venv:
+  redis-data:
