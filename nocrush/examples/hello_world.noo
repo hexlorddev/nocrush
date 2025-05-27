@@ -1,0 +1,4 @@
+// Hello World in NooCrush
+fn main() {
+    print("Hello, World!");
+}

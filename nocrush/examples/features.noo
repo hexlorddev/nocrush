@@ -1,0 +1,125 @@
+// NooCrush Feature Showcase
+
+// 1. Variables and Constants
+const MAX_ATTEMPTS = 3;
+let mut attempts = 0;
+let username = "NooCrushUser";
+
+// 2. Functions
+fn greet(name: String) -> String {
+    return `Hello, ${name}!`;
+}
+
+// 3. Structs
+struct User {
+    name: String,
+    age: Number,
+    mut score: Number,
+    is_active: Bool = true
+}
+
+// 4. Control Flow
+fn check_attempts(attempts: Number) -> String {
+    if attempts >= MAX_ATTEMPTS {
+        return "Too many attempts!";
+    } else if attempts > 0 {
+        return "Try again!";
+    } else {
+        return "First attempt!";
+    }
+}
+
+// 5. Loops
+fn count_to(n: Number) {
+    for i in 1..=n {
+        print(i);
+    }
+    
+    // Or using while
+    let i = 0;
+    while i < n {
+        print(i);
+        i = i + 1;
+    }
+    
+    // Or using loop with break
+    let j = 0;
+    loop {
+        if j >= n {
+            break;
+        }
+        print(j);
+        j = j + 1;
+    }
+}
+
+// 6. Pattern Matching
+fn describe_number(n: Number) -> String {
+    match n {
+        0 => "zero",
+        1 => "one",
+        2 => "two",
+        _ if n < 0 => "negative number",
+        _ => "many"
+    }
+}
+
+// 7. List Comprehensions
+fn get_even_squares(numbers: List[Number]) -> List[Number] {
+    return [x * x for x in numbers if x % 2 == 0];
+}
+
+// 8. Higher-Order Functions
+fn process_numbers(numbers: List[Number], processor: Function) -> List[Number] {
+    return numbers.map(processor);
+}
+
+// 9. Async/Await
+async fn fetch_data(url: String) -> String {
+    // Simulate network request
+    return await http.get(url);
+}
+
+// 10. Error Handling
+fn divide(a: Number, b: Number) -> Result<Number, String> {
+    if b == 0 {
+        return Err("Division by zero");
+    }
+    return Ok(a / b);
+}
+
+// Main function
+fn main() {
+    // Create a user
+    let user = User {
+        name: "Alice",
+        age: 25,
+        score: 0,
+    };
+    
+    // Update score
+    user.score = user.score + 10;
+    
+    // Print greeting
+    print(greet(user.name));
+    
+    // Show numbers
+    count_to(5);
+    
+    // Process numbers
+    let numbers = [1, 2, 3, 4, 5];
+    let squares = process_numbers(numbers, x => x * x);
+    print(squares);
+    
+    // Error handling example
+    match divide(10, 2) {
+        Ok(result) => print(`Result: ${result}`),
+        Err(error) => print(`Error: ${error}`)
+    }
+    
+    // Async example
+    async {
+        let data = await fetch_data("https://api.example.com/data");
+        print(`Fetched data: ${data}`);
+    }
+}
