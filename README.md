@@ -12,7 +12,7 @@ A powerful, high-level programming language with a focus on simplicity and produ
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/noocrush.git
+git clone https://github.com/HEXLORDDEV/noocrush.git
 cd noocrush
 pip install -e .
 ```
